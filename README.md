@@ -9,7 +9,7 @@ A web version of Tinder, includes most of the features the app has and some extr
 #### Configuration
 Before using it, you will need your Facebook OAuth token. The easiest way to get it is by using a proxy service like [Charles](https://www.charlesproxy.com/), this [guide](http://jaanus.com/debugging-http-on-an-android-phone-or-tablet-with-charles-proxy-for-fun-and-profit/) is pretty straightforward. 
 
-After setting up the proxy, open your tinder app and all the generated traffic will come up. Then, look for the following request: **api.gotinder.com/auth**, and within its body, copy the value of the **facebook_token** parameter. Download this project in your local repository and paste the value in the object called FACEBOOK_TOKEN inside the TinderClient class.
+After setting up the proxy, open your tinder app and all the generated traffic will come up. Then, look for the following request: **api.gotinder.com/auth**, and within its body, copy the value of the **facebook_token** parameter. Download this project in your local repository and paste the value in the final variable called FACEBOOK_TOKEN inside the TinderClient class.
 
 The last step is build the war and deploy it inside a container of your choice, I've been using Tomcat, but any other java container will do.
 
