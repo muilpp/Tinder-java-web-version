@@ -23,4 +23,4 @@ Tinder also provides the feature of changing the user position at will. This is 
 
 https://api.gotinder.com/user/ping is the endpoint, notice that this is a POST request. It needs two header parameters, the first one is _Content-Type:application/json_ and the second _X-Auth-Token_, the value of which you can find if you inspect the traffic with Charles (as explained above), you'll see every request sent to the tinder api have this very same requests, just copy them. 
 
-Last but not least, add the longitude and latitude to the body of the request, this would be for New York: _{"lon": -74.0564942, "lat": 40.7397855}_. Now run the request, check the response is 200 and then browse again to get more possible matches. This time they will be from the place you chose.
+Last but not least, add the longitude and latitude to the body of the request, this would be for New York: _{"lon": -74.0564942, "lat": 40.7397855}_. Now run the request, check the response is 200 and then browse again to get more matches. This time they will be from the place you chose.
