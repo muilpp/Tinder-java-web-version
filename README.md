@@ -16,7 +16,7 @@ The last step is build the war and deploy it inside a container of your choice, 
 ## Usage
 Once you have your container up and running, browse to **http://localhost/TINDER_PARSER_WEB/controller**. This will show you the list of all possible matches near you. Now you can start sending out likes.
 
-To see all the matches, browse to **http://localhost/TINDER_PARSER_WEB/controller?matches=true**. This shows all your matches (including the former matches that blocked you). If you click in any of these, you'll see the position of the user and below theres an input field you can use to send messages to this user.
+To see all the matches, browse to **http://localhost/TINDER_PARSER_WEB/controller?matches=true**. This shows all your matches (including the former matches that blocked you). If you click in any of these, you'll see the position of the user and below there's an input field you can use to send messages to this user.
 
 ## Extra features (not yet implemented)
 Tinder also provides the feature of changing the user position at will. This is not implemented in this project yet, but you can achieve it if you use [Postman](http://www.getpostman.com/) or any other tool which lets you run requests.
