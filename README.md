@@ -7,4 +7,4 @@ git clone [https://github.com/muilpp/tinder-web-version.git](https://github.com/
 ## Configuration
 Before using it, you will need your facebook oauth token. The easiest way to do so, you'll need a proxy service like [Charles](https://www.charlesproxy.com/), this [guide](http://jaanus.com/debugging-http-on-an-android-phone-or-tablet-with-charles-proxy-for-fun-and-profit/) is pretty straightforward. 
 
-Once the proxy is set up, open your tinder app, and you'll see the generated traffic coming up. Then, look for the following request: **https://api.gotinder.com/auth**, and within the body copy the value of the **facebook_token** parameter.
+Once the proxy is set up, open your tinder app, and you'll see the generated traffic coming up. Then, look for the following request: **api.gotinder.com/auth**, and within the body copy the value of the **facebook_token** parameter.
