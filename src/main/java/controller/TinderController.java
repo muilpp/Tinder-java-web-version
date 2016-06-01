@@ -24,11 +24,11 @@ public class TinderController extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
         ServletContext context = request.getSession().getServletContext();
 
-        boolean like = request.getParameter("like") != null && request.getParameter("like").equalsIgnoreCase("true") ? true : false;
-        boolean pass = request.getParameter("pass") != null && request.getParameter("pass").equalsIgnoreCase("true") ? true : false;
-        String userID = request.getParameter("id") != null ? request.getParameter("id").toString() : "";
-        boolean showMatches = request.getParameter("matches") != null ? true : false;
+        boolean like = request.getParameter("like") != null && request.getParameter("like").equalsIgnoreCase("true");
+        boolean pass = request.getParameter("pass") != null && request.getParameter("pass").equalsIgnoreCase("true");
+        boolean showMatches = request.getParameter("matches") != null;
 
+        String userID = request.getParameter("id") != null ? request.getParameter("id").toString() : "";
         String message = request.getParameter("message") != null ? request.getParameter("message").toString() : "";
         String matchID = request.getParameter("matchID") != null ? request.getParameter("matchID").toString() : "";
 
