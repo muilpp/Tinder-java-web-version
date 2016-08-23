@@ -7,9 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Person {
     private List<Photos> photoList;
-    private String name;
-    private Position position;
-    private String id;
+    private String name, id, birth_date, bio;
+	private Position position;
 
     public String getName() {
         return name;
@@ -25,7 +24,7 @@ public class Person {
     public void setPhotoList(List<Photos> photoList) {
         this.photoList = photoList;
     }
-    
+
     @JsonProperty("pos")
     public Position getPosition() {
         return position;
@@ -41,4 +40,19 @@ public class Person {
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getBirth_date() {
+		return birth_date;
+	}
+	public void setBirth_date(String birth_date) {
+		this.birth_date = birth_date;
+	}
+
+	public String getBio() {
+		return bio;
+	}
+	public void setBio(String bio) {
+		this.bio = bio;
+	}
+
 }

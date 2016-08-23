@@ -1,3 +1,4 @@
+<%@page import="com.google.common.base.Strings"%>
 <%@page import="org.joda.time.DateTime"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.List"%>
@@ -47,19 +48,31 @@ p {
 %>
         <div id="match">
         <p>Name: <%=person.getName()%></p>
+
+<%		if (!Strings.isNullOrEmpty(person.getBio())) {
+%>			<p>Bio: <%=person.getBio() %></p>
 <%
-        DateTime dateTime = new DateTime(person.getPosition().getTime());
+		}
 %>
-        <p>Dia: <%=dateTime.getDayOfMonth()%>-<%=dateTime.getMonthOfYear()%>-<%=dateTime.getYear()%></p>
-        <p>Hora: <%=dateTime.getHourOfDay()%>:<%=dateTime.getMinuteOfHour()%>h</p>
+	
+<%
+// 		System.out.println("Time: " + person.getPosition().getTime());
+//         DateTime dateTime = new DateTime(person.getPosition().getTime());
+%> 
+<%--         <p>Dia: <%=dateTime.getDayOfMonth()%>-<%=dateTime.getMonthOfYear()%>-<%=dateTime.getYear()%></p> --%>
+<%--         <p>Hora: <%=dateTime.getHourOfDay()%>:<%=dateTime.getMinuteOfHour()%>h</p> --%>
+<%-- <% --%>
+<%--	DateTime birthDate = new DateTime(person.getBirth_date()); %>
+<%-- %> --%>
+<%-- 		<p>Birth date: <%=birthDate.getDayOfMonth()%>-<%=birthDate.getMonthOfYear()%>-<%=birthDate.getYear()%></p> --%>
 
-        <p>Lat, Lon: <%=person.getPosition().getLatitude()%>, <%=person.getPosition().getLongitude()%></p>
+<%--         <p>Lat, Lon: <%=person.getPosition().getLatitude()%>, <%=person.getPosition().getLongitude()%></p> --%>
 
-		<iframe width="600" height="450" frameborder="0" style="border:0"
-          src="https://www.google.com/maps/embed/v1/view?key=AIzaSyAV3hwO0kIVWHTfQSjnkMtHEBgIsIyETr8
-              &center=<%=person.getPosition().getLatitude()%>,<%=person.getPosition().getLongitude()%>
-              &zoom=17" allowfullscreen>
-        </iframe>
+<!-- 		<iframe width="600" height="450" frameborder="0" style="border:0" -->
+<%--           src="https://www.google.com/maps/embed/v1/view?key=AIzaSyAV3hwO0kIVWHTfQSjnkMtHEBgIsIyETr8 --%>
+<%--               &center=<%=person.getPosition().getLatitude()%>,<%=person.getPosition().getLongitude()%> --%>
+<%--               &zoom=17" allowfullscreen> --%>
+<!--         </iframe> -->
 
 <%
         for (Photos photo : person.getPhotoList()) {
