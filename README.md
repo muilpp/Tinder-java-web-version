@@ -1,5 +1,7 @@
 ## Tinder web version
-A web version of Tinder, includes most of the features the app has and some extras like having a list of possible matches instead of 1 at a time, showing the position of your matches, the people who blocked you, the last time a certain user was online and how many times was he/she connected (this one is not very reliable though). It also includes a post-like message system.
+A web version of Tinder, includes most of the features the app has and some extras like having a list of possible matches instead of 1 at a time, showing the position of your matches, the people who blocked you, the last time a certain user was online and how many times was he/she connected (this one is not very reliable though). It also includes a post-like message system. It's certainly not the best code I've ever written and when I started this project I never thought I'd publish it, so some skills will be required to make it work.
+
+The purpose of this project is to **make Tinder and its users aware of the problem**, it was never my intention to help people violate the intimacy of other users, so use it at your own risk.
 
 #### Requirements
 - Java >= 7
