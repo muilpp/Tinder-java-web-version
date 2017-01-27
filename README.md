@@ -17,14 +17,12 @@ Finally Tinder fixed the issue of the GPS location, now the response does not co
 #### Configuration
 Before using it, you will need your Facebook OAuth token. The easiest way to get it is by using a proxy service like [Charles](https://www.charlesproxy.com/), this [guide](http://jaanus.com/debugging-http-on-an-android-phone-or-tablet-with-charles-proxy-for-fun-and-profit/) is pretty straightforward. 
 
-After setting up the proxy, open your tinder app and all the generated traffic will come up. Then, look for the following request: **api.gotinder.com/auth**, and within its body, copy the value of the **facebook_token** parameter. Download this project in your local repository and paste the value in the final variable called FACEBOOK_TOKEN inside the TinderClient class.
+After setting up the proxy, open your tinder app and all the generated traffic will come up. Then, look for the following request: **api.gotinder.com/auth**, and within its body, copy the value of the **facebook_token** parameter. Download this project in your local repository and paste the value in the final variable called FACEBOOK_TOKEN inside the Constants class.
 
 The last step is build the war and deploy it inside a container of your choice, I've been using Tomcat, but any other java container will do.
 
 #### Usage
-Once you have your container up and running, browse to **http://localhost/TINDER_PARSER_WEB/controller**. This will show you the list of all possible matches near you. Now you can start sending out likes.
-
-To see all the matches, browse to **http://localhost/TINDER_PARSER_WEB/controller?matches=true**. This shows all your matches (including the former matches that blocked you). If you click in any of these, you'll see the position of the user and below there's an input field you can use to send messages to this user.
+Once you have your container up and running, browse to **http://localhost:8080/tinder-1.0.0**. The main menu will show up and a bunch of options will be available. So far, only recommendations and matches work, the rest are under development and will be ready soon.
 
 #### Extra features (not yet implemented)
 Tinder also provides the feature of changing the user position at will. This is not implemented in this project yet, but you can achieve it if you use [Postman](http://www.getpostman.com/) or any other tool which lets you run requests.
