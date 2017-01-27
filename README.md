@@ -3,11 +3,14 @@ A web version of Tinder, includes most of the features the app has and some extr
 
 The purpose of this project is to **make Tinder and its users aware of the problem**, it was never my intention to help people violate the intimacy of other users, so use it at your own risk.
 
+#### Update (2017 / 01 / 27)
+I replaced the repo with a new project, it has the same features the old one had, but in the near future it will have some more like changing the location and getting to know who liked you in advance.
+
 #### Update (2016 / 08 / 23)
 Finally Tinder fixed the issue of the GPS location, now the response does not contain the coordinates of every match, instead they send back the distance in miles from you.
 
 #### Requirements
-- Java >= 7
+- Java >= 8
 - Basic knowledge of REST services
 - The project will need to be deployed in a container like Tomcat
 
