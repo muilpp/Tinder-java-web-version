@@ -33,8 +33,11 @@ public class TinderAPIImpl implements TinderAPI {
 
     @Bean
     public RestTemplate restTemplate() {
+//        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+//        Proxy proxy = new Proxy(Type.HTTP, new InetSocketAddress("192.168.1.35", 8888));
+//        requestFactory.setProxy(proxy);
+//        RestTemplate restTemplate = new RestTemplate(requestFactory);
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setErrorHandler(new ErrorHandler());
         restTemplate.setErrorHandler(new ErrorHandler());
         restTemplate.getInterceptors().add(new LoggingInterceptor());
         return restTemplate;
@@ -45,19 +48,16 @@ public class TinderAPIImpl implements TinderAPI {
 
     @Override
     public TinderUser authorize(String facebookToken) {
-        // SimpleClientHttpRequestFactory requestFactory = new
-        // SimpleClientHttpRequestFactory();
-        // Proxy proxy= new Proxy(Type.HTTP, new
-        // InetSocketAddress("192.168.1.35", 8888));
-        // requestFactory.setProxy(proxy);
-        // RestTemplate restTemplate = new RestTemplate(requestFactory);
-
         FacebookUser facebookUser = new FacebookUser(facebookToken);
 
         ResponseEntity<TinderUser> response = restTemplate.postForEntity(getAuthorizationEP(), facebookUser,
                 TinderUser.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
+            //remove old token header
+            restTemplate.getInterceptors().removeIf(s -> s.getClass().equals(BearerHeaderInterceptor.class));
+            restTemplate.getInterceptors().add(new BearerHeaderInterceptor(response.getBody().getToken()));
+            
             return response.getBody();
         } else {
             LOGGER.severe("Failed authorization : HTTP response -> " + response.getStatusCodeValue());
@@ -69,7 +69,6 @@ public class TinderAPIImpl implements TinderAPI {
 
     @Override
     public RecommendationsDTO getRecommendations(String userToken) {
-        restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
         ResponseEntity<RecommendationsDTO> response = restTemplate.postForEntity(getRecsEP(), "",
                 RecommendationsDTO.class);
 
@@ -85,7 +84,6 @@ public class TinderAPIImpl implements TinderAPI {
 
     @Override
     public boolean sendLike(String userID, String userToken) {
-        restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
         ResponseEntity<String> response = restTemplate.getForEntity(getSendLikeEP(userID), String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
@@ -101,7 +99,6 @@ public class TinderAPIImpl implements TinderAPI {
 
     @Override
     public void sendPass(String userID, String userToken) {
-        restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
         ResponseEntity<String> response = restTemplate.getForEntity(getSendPassEP(userID), String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
@@ -114,7 +111,6 @@ public class TinderAPIImpl implements TinderAPI {
 
     @Override
     public int sendSuperlike(String userID, String userToken) {
-        restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
         ResponseEntity<String> response = restTemplate.postForEntity(getSendSuperlikeEP(userID), "", String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
@@ -132,7 +128,6 @@ public class TinderAPIImpl implements TinderAPI {
     }
 
     public MatchesDTO getAllMatches(String userToken) {
-        restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
         ResponseEntity<MatchesDTO> response = restTemplate.postForEntity(getAllMatchesEP(), "{\"matches\":\"\"}",
                 MatchesDTO.class);
 
@@ -148,7 +143,6 @@ public class TinderAPIImpl implements TinderAPI {
 
     @Override
     public MatchDTO getMatchInfo(String userToken, String matchID) {
-        restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
         ResponseEntity<MatchDTO> response = restTemplate.getForEntity(getMatchInfoEP(matchID), MatchDTO.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
@@ -163,7 +157,6 @@ public class TinderAPIImpl implements TinderAPI {
 
     @Override
     public boolean sendMessage(String userToken, String messageText, String matchID) {
-        restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
         Message message = new Message();
         message.setMessage(messageText);
         ResponseEntity<String> response = restTemplate.postForEntity(getMatchInfoEP(matchID), message, String.class);

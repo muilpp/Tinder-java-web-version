@@ -28,14 +28,14 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
         // Tinder would deny the request
         headers.add("User-Agent", "Tinder Android Version 6.7.2");
 
-        // Iterator<String> headerIterator = headers.keySet().iterator();
-        // LOGGER.info("Headers: ");
-        // while (headerIterator.hasNext()) {
-        // String key = headerIterator.next();
-        // LOGGER.info(key + " : " + headers.get(key));
-        // }
-        //
-        // LOGGER.info("Body -> " + new String(body, StandardCharsets.UTF_8));
+        Iterator<String> headerIterator = headers.keySet().iterator();
+        LOGGER.info("Headers: ");
+        while (headerIterator.hasNext()) {
+            String key = headerIterator.next();
+            LOGGER.info(key + " : " + headers.get(key));
+        }
+
+        LOGGER.info("Body -> " + new String(body, StandardCharsets.UTF_8));
 
         // LOGGER.info("-- RESPONSE --");
         //
