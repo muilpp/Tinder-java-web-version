@@ -10,6 +10,8 @@ import static com.tinder.model.webservice.Endpoints.getSendSuperlikeEP;
 
 import java.util.logging.Logger;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,154 +28,145 @@ import com.tinder.model.webservice.interceptors.BearerHeaderInterceptor;
 import com.tinder.model.webservice.interceptors.LoggingInterceptor;
 
 @Service
-public class TinderAPIImpl implements TinderAPI{
-	private final static Logger LOGGER = Logger.getLogger(TinderAPIImpl.class.getName());
+public class TinderAPIImpl implements TinderAPI {
+    private final static Logger LOGGER = Logger.getLogger(TinderAPIImpl.class.getName());
 
-	@Override
-	public TinderUser authorize(String facebookToken) {
-//		SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-//	    Proxy proxy= new Proxy(Type.HTTP, new InetSocketAddress("192.168.1.35", 8888));
-//	    requestFactory.setProxy(proxy);
-//		RestTemplate restTemplate = new RestTemplate(requestFactory);
+    @Bean
+    public RestTemplate restTemplate() {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setErrorHandler(new ErrorHandler());
+        restTemplate.setErrorHandler(new ErrorHandler());
+        restTemplate.getInterceptors().add(new LoggingInterceptor());
+        return restTemplate;
+    }
 
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.setErrorHandler(new ErrorHandler());
-//		restTemplate.getInterceptors().add(new AcceptHeaderInterceptor());
-		FacebookUser facebookUser = new FacebookUser(facebookToken);
-		restTemplate.getInterceptors().add(new LoggingInterceptor());
+    @Autowired
+    private RestTemplate restTemplate;
 
-		ResponseEntity<TinderUser> response = restTemplate.postForEntity(getAuthorizationEP(), facebookUser, TinderUser.class);
+    @Override
+    public TinderUser authorize(String facebookToken) {
+        // SimpleClientHttpRequestFactory requestFactory = new
+        // SimpleClientHttpRequestFactory();
+        // Proxy proxy= new Proxy(Type.HTTP, new
+        // InetSocketAddress("192.168.1.35", 8888));
+        // requestFactory.setProxy(proxy);
+        // RestTemplate restTemplate = new RestTemplate(requestFactory);
 
-		if (response.getStatusCode() == HttpStatus.OK) {
-			return response.getBody();
-		} else {
-			LOGGER.severe("Failed authorization : HTTP response -> " + response.getStatusCodeValue());
-			LOGGER.severe(response.getStatusCode().getReasonPhrase());
-		}
+        FacebookUser facebookUser = new FacebookUser(facebookToken);
 
-		return new TinderUser();
-	}
+        ResponseEntity<TinderUser> response = restTemplate.postForEntity(getAuthorizationEP(), facebookUser,
+                TinderUser.class);
 
-	@Override
-	public RecommendationsDTO getRecommendations(String userToken) {
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.setErrorHandler(new ErrorHandler());
-		restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
-		restTemplate.getInterceptors().add(new LoggingInterceptor());
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return response.getBody();
+        } else {
+            LOGGER.severe("Failed authorization : HTTP response -> " + response.getStatusCodeValue());
+            LOGGER.severe(response.getStatusCode().getReasonPhrase());
+        }
 
-		ResponseEntity<RecommendationsDTO> response = restTemplate.postForEntity(getRecsEP(), "", RecommendationsDTO.class);
+        return new TinderUser();
+    }
 
-		if (response.getStatusCode() == HttpStatus.OK) {
-			return response.getBody();
-		} else {
-			LOGGER.severe("Failed recommendations : HTTP response -> " + response.getStatusCodeValue());
-			LOGGER.severe(response.getStatusCode().getReasonPhrase());
-		}
+    @Override
+    public RecommendationsDTO getRecommendations(String userToken) {
+        restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
+        ResponseEntity<RecommendationsDTO> response = restTemplate.postForEntity(getRecsEP(), "",
+                RecommendationsDTO.class);
 
-		return new RecommendationsDTO();
-	}
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return response.getBody();
+        } else {
+            LOGGER.severe("Failed recommendations : HTTP response -> " + response.getStatusCodeValue());
+            LOGGER.severe(response.getStatusCode().getReasonPhrase());
+        }
 
-	@Override
-	public boolean sendLike(String userID, String userToken) {
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.setErrorHandler(new ErrorHandler());
-		restTemplate.getInterceptors().add(new LoggingInterceptor());
-		restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
-		ResponseEntity<String> response = restTemplate.getForEntity(getSendLikeEP(userID), String.class);
+        return new RecommendationsDTO();
+    }
 
-		if (response.getStatusCode() == HttpStatus.OK) {
-			System.out.println(response.getBody());
-			return response.getBody().contains("true");
-		} else {
-			LOGGER.severe("Failed like : HTTP response -> " + response.getStatusCodeValue());
-			LOGGER.severe(response.getStatusCode().getReasonPhrase());
-		}
+    @Override
+    public boolean sendLike(String userID, String userToken) {
+        restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
+        ResponseEntity<String> response = restTemplate.getForEntity(getSendLikeEP(userID), String.class);
 
-		return false;
-	}
+        if (response.getStatusCode() == HttpStatus.OK) {
+            System.out.println(response.getBody());
+            return response.getBody().contains("true");
+        } else {
+            LOGGER.severe("Failed like : HTTP response -> " + response.getStatusCodeValue());
+            LOGGER.severe(response.getStatusCode().getReasonPhrase());
+        }
 
-	@Override
-	public void sendPass(String userID, String userToken) {
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.setErrorHandler(new ErrorHandler());
-		restTemplate.getInterceptors().add(new LoggingInterceptor());
-		restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
-		ResponseEntity<String> response = restTemplate.getForEntity(getSendPassEP(userID), String.class);
+        return false;
+    }
 
-		if (response.getStatusCode() == HttpStatus.OK) {
-			System.out.println(response.getBody());
-		} else {
-			LOGGER.severe("Failed pass : HTTP response -> " + response.getStatusCodeValue());
-			LOGGER.severe(response.getStatusCode().getReasonPhrase());
-		}
-	}
+    @Override
+    public void sendPass(String userID, String userToken) {
+        restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
+        ResponseEntity<String> response = restTemplate.getForEntity(getSendPassEP(userID), String.class);
 
-	@Override
-	public int sendSuperlike(String userID, String userToken) {
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.setErrorHandler(new ErrorHandler());
-		restTemplate.getInterceptors().add(new LoggingInterceptor());
-		restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
-		ResponseEntity<String> response = restTemplate.postForEntity(getSendSuperlikeEP(userID), "", String.class);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            System.out.println(response.getBody());
+        } else {
+            LOGGER.severe("Failed pass : HTTP response -> " + response.getStatusCodeValue());
+            LOGGER.severe(response.getStatusCode().getReasonPhrase());
+        }
+    }
 
-		if (response.getStatusCode() == HttpStatus.OK) {
-			System.out.println(response.getBody());
-			if (response.getBody().contains("limit_exceeded"))
-				return -1;
-			else if (response.getBody().contains("true"))
-				return 1;
-		} else {
-			LOGGER.severe("Failed super like : HTTP response -> " + response.getStatusCodeValue());
-			LOGGER.severe(response.getStatusCode().getReasonPhrase());
-		}
+    @Override
+    public int sendSuperlike(String userID, String userToken) {
+        restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
+        ResponseEntity<String> response = restTemplate.postForEntity(getSendSuperlikeEP(userID), "", String.class);
 
-		return 0;
-	}
+        if (response.getStatusCode() == HttpStatus.OK) {
+            System.out.println(response.getBody());
+            if (response.getBody().contains("limit_exceeded"))
+                return -1;
+            else if (response.getBody().contains("true"))
+                return 1;
+        } else {
+            LOGGER.severe("Failed super like : HTTP response -> " + response.getStatusCodeValue());
+            LOGGER.severe(response.getStatusCode().getReasonPhrase());
+        }
+
+        return 0;
+    }
 
     public MatchesDTO getAllMatches(String userToken) {
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.setErrorHandler(new ErrorHandler());
-		restTemplate.getInterceptors().add(new LoggingInterceptor());
-		restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
-		ResponseEntity<MatchesDTO> response = restTemplate.postForEntity(getAllMatchesEP(), "{\"matches\":\"\"}", MatchesDTO.class);
+        restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
+        ResponseEntity<MatchesDTO> response = restTemplate.postForEntity(getAllMatchesEP(), "{\"matches\":\"\"}",
+                MatchesDTO.class);
 
-		if (response.getStatusCode() == HttpStatus.OK) {
-			return response.getBody();
-		} else {
-			LOGGER.severe("Failed all mathces : HTTP response -> " + response.getStatusCodeValue());
-			LOGGER.severe(response.getStatusCode().getReasonPhrase());
-		}
-		
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return response.getBody();
+        } else {
+            LOGGER.severe("Failed all mathces : HTTP response -> " + response.getStatusCodeValue());
+            LOGGER.severe(response.getStatusCode().getReasonPhrase());
+        }
+
         return null;
     }
 
-	@Override
-	public MatchDTO getMatchInfo(String userToken, String matchID) {
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.setErrorHandler(new ErrorHandler());
-		restTemplate.getInterceptors().add(new LoggingInterceptor());
-		restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
-		ResponseEntity<MatchDTO> response = restTemplate.getForEntity(getMatchInfoEP(matchID), MatchDTO.class);
+    @Override
+    public MatchDTO getMatchInfo(String userToken, String matchID) {
+        restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
+        ResponseEntity<MatchDTO> response = restTemplate.getForEntity(getMatchInfoEP(matchID), MatchDTO.class);
 
-		if (response.getStatusCode() == HttpStatus.OK) {
-			return response.getBody();
-		} else {
-			LOGGER.severe("Failed match info : HTTP response -> " + response.getStatusCodeValue());
-			LOGGER.severe(response.getStatusCode().getReasonPhrase());
-		}
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return response.getBody();
+        } else {
+            LOGGER.severe("Failed match info : HTTP response -> " + response.getStatusCodeValue());
+            LOGGER.severe(response.getStatusCode().getReasonPhrase());
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Override
+    @Override
     public boolean sendMessage(String userToken, String messageText, String matchID) {
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.setErrorHandler(new ErrorHandler());
-		restTemplate.getInterceptors().add(new LoggingInterceptor());
-		restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
-		Message message = new Message();
-		message.setMessage(messageText);
-		ResponseEntity<String> response = restTemplate.postForEntity(getMatchInfoEP(matchID), message, String.class);
+        restTemplate.getInterceptors().add(new BearerHeaderInterceptor(userToken));
+        Message message = new Message();
+        message.setMessage(messageText);
+        ResponseEntity<String> response = restTemplate.postForEntity(getMatchInfoEP(matchID), message, String.class);
 
         return response.getStatusCode() == HttpStatus.OK;
     }

@@ -8,27 +8,27 @@ import com.tinder.model.webservice.data.Message;
 
 public class TinderData {
 
-	private static TinderData tinderData;
-	private List<Message> messageList;
-	private static final Logger LOGGER = Logger.getLogger(TinderData.class.getSimpleName());
+    private static TinderData tinderData;
+    private List<Message> messageList;
+    private static final Logger LOGGER = Logger.getLogger(TinderData.class.getSimpleName());
 
-	private TinderData() {
-		messageList = Collections.emptyList();
-	}
+    private TinderData() {
+        messageList = Collections.emptyList();
+    }
 
-	public static TinderData getInstance() {
-		if (tinderData == null) {
-			tinderData = new TinderData();
-		}
+    public static TinderData getInstance() {
+        if (tinderData == null) {
+            tinderData = new TinderData();
+        }
 
-		return tinderData;
-	}
-	
-	public void setMessageList(List<Message> messageList) {
-		this.messageList = messageList;
-	}
-	
-	public List<Message> getMessageList() {
-		return messageList;
-	}
+        return tinderData;
+    }
+
+    public void setMessageList(List<Message> messageList) {
+        this.messageList = messageList;
+    }
+
+    public List<Message> getMessageList() {
+        return messageList;
+    }
 }

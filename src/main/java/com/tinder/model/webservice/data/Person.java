@@ -12,6 +12,7 @@ public class Person {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -20,6 +21,7 @@ public class Person {
     public List<Photos> getPhotoList() {
         return photoList;
     }
+
     public void setPhotoList(List<Photos> photoList) {
         this.photoList = photoList;
     }
@@ -28,22 +30,25 @@ public class Person {
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
 
     public String getBirth_date() {
-		return birth_date;
-	}
-	public void setBirth_date(String birth_date) {
-		this.birth_date = birth_date;
-	}
+        return birth_date;
+    }
 
-	public String getBio() {
-		return bio;
-	}
-	public void setBio(String bio) {
-		this.bio = bio;
-	}
+    public void setBirth_date(String birth_date) {
+        this.birth_date = birth_date;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 
 }

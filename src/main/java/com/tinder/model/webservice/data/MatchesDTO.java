@@ -13,6 +13,7 @@ public class MatchesDTO {
     public List<Match> getMatchList() {
         return matchList;
     }
+
     public void setMatchList(List<Match> matchList) {
         this.matchList = matchList;
     }
@@ -21,6 +22,7 @@ public class MatchesDTO {
     public List<String> getBlocks() {
         return blocks;
     }
+
     public void setBlocks(List<String> blocks) {
         this.blocks = blocks;
     }

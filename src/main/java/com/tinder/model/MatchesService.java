@@ -21,49 +21,49 @@ import com.vaadin.ui.VerticalLayout;
 
 @Service
 public class MatchesService {
-	private final static Logger LOGGER = Logger.getLogger(MatchesService.class.getSimpleName());
+    private final static Logger LOGGER = Logger.getLogger(MatchesService.class.getSimpleName());
 
-	public Layout showMatches(Navigator navigator, List<Match> matchList) {
-		HorizontalLayout matchesRowLayout = new HorizontalLayout();
-		VerticalLayout allMatchesLayout = new VerticalLayout();
+    public Layout showMatches(Navigator navigator, List<Match> matchList) {
+        HorizontalLayout matchesRowLayout = new HorizontalLayout();
+        VerticalLayout allMatchesLayout = new VerticalLayout();
 
-		for (int i = 0; i < matchList.size(); i++) {
-			Match match = matchList.get(i);
-			VerticalLayout matchLayout = new VerticalLayout();
-			Label nameLabel = new Label(match.getPerson().getName() + "("+match.getMessageList().size()+")");
-			Image image = createImage(match.getPerson().getPhotoList().get(0).getUrl());
-			matchLayout.addComponents(nameLabel, image);
-			matchLayout.setMargin(new MarginInfo(true, false, false, true));
+        for (int i = 0; i < matchList.size(); i++) {
+            Match match = matchList.get(i);
+            VerticalLayout matchLayout = new VerticalLayout();
+            Label nameLabel = new Label(match.getPerson().getName() + "(" + match.getMessageList().size() + ")");
+            Image image = createImage(match.getPerson().getPhotoList().get(0).getUrl());
+            matchLayout.addComponents(nameLabel, image);
+            matchLayout.setMargin(new MarginInfo(true, false, false, true));
 
-			matchLayout.addLayoutClickListener(e -> {
-				TinderData.getInstance().setMessageList(match.getMessageList());
-				navigator.navigateTo(PAGE_MATCH+"/"+match.getId());
-			});
+            matchLayout.addLayoutClickListener(e -> {
+                TinderData.getInstance().setMessageList(match.getMessageList());
+                navigator.navigateTo(PAGE_MATCH + "/" + match.getId());
+            });
 
-			matchesRowLayout.addComponent(matchLayout);
+            matchesRowLayout.addComponent(matchLayout);
 
-			//when 10 matches are added, add the next 10 below
-			if (i != 0 && i % MAX_MATCH_PER_ROW == 0) {
-				allMatchesLayout.addComponent(matchesRowLayout);
-				matchesRowLayout = new HorizontalLayout();
-			}
-		}
+            // when 10 matches are added, add the next 10 below
+            if (i != 0 && i % MAX_MATCH_PER_ROW == 0) {
+                allMatchesLayout.addComponent(matchesRowLayout);
+                matchesRowLayout = new HorizontalLayout();
+            }
+        }
 
-		//there's still something left to be added
-		if (matchList.size() % MAX_MATCH_PER_ROW != 0) {
-			allMatchesLayout.addComponent(matchesRowLayout);
-		}
+        // there's still something left to be added
+        if (matchList.size() % MAX_MATCH_PER_ROW != 0) {
+            allMatchesLayout.addComponent(matchesRowLayout);
+        }
 
-		allMatchesLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-		return allMatchesLayout;
-	}
+        allMatchesLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+        return allMatchesLayout;
+    }
 
-	private Image createImage(String imageLocation) {
-		Image changeUserImage = new Image();
-		changeUserImage.setSource(new ExternalResource(imageLocation));
-		changeUserImage.setWidth("75px");
-		changeUserImage.setHeight("75px");
+    private Image createImage(String imageLocation) {
+        Image changeUserImage = new Image();
+        changeUserImage.setSource(new ExternalResource(imageLocation));
+        changeUserImage.setWidth("75px");
+        changeUserImage.setHeight("75px");
 
-		return changeUserImage;
-	}
+        return changeUserImage;
+    }
 }

@@ -8,10 +8,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Photos {
     private String url;
     private List<ProcessedFiles> processedFiles;
-    
+
     public String getUrl() {
         return url;
     }
+
     public void setUrl(String url) {
         this.url = url;
     }
@@ -19,6 +20,7 @@ public class Photos {
     public List<ProcessedFiles> getProcessedFiles() {
         return processedFiles;
     }
+
     public void setProcessedFiles(List<ProcessedFiles> processedFiles) {
         this.processedFiles = processedFiles;
     }

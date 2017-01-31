@@ -13,33 +13,34 @@ import com.vaadin.ui.VerticalLayout;
 
 @Service
 public class MatchView extends VerticalLayout implements View {
-	private static final long serialVersionUID = 3241054721587420815L;
-	private Navigator navigator;
-	private String userToken;
+    private static final long serialVersionUID = 3241054721587420815L;
+    private Navigator navigator;
+    private String userToken;
 
-	public MatchView() {}
+    public MatchView() {
+    }
 
-	@Autowired
-	private TinderAPI tinderAPI;
+    @Autowired
+    private TinderAPI tinderAPI;
 
-	@Autowired
-	private MatchService matchService;
+    @Autowired
+    private MatchService matchService;
 
-	public void setUserToken(String userToken) {
-		this.userToken = userToken;
-	}
-	
-	public void setNavigator(Navigator navigator) {
-		this.navigator = navigator;
-	}
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
+    }
 
-	@Override
+    public void setNavigator(Navigator navigator) {
+        this.navigator = navigator;
+    }
+
+    @Override
     public void enter(ViewChangeEvent event) {
-		//remove the previous chat messages from the view
-		removeAllComponents();
-    	MatchDTO matchDTO = tinderAPI.getMatchInfo(userToken, event.getParameters());
+        // remove the previous chat messages from the view
+        removeAllComponents();
+        MatchDTO matchDTO = tinderAPI.getMatchInfo(userToken, event.getParameters());
 
-    	if (this.getComponentCount()==0)
-			addComponent(matchService.showMatch(userToken, navigator, matchDTO.getMatch()));
+        if (this.getComponentCount() == 0)
+            addComponent(matchService.showMatch(userToken, navigator, matchDTO.getMatch()));
     }
 }

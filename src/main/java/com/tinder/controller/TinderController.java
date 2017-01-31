@@ -13,29 +13,29 @@ import com.tinder.model.webservice.data.TinderUser;
 @RestController
 public class TinderController {
 
-	@Autowired
-	private TinderAPI tinderAPI;
+    @Autowired
+    private TinderAPI tinderAPI;
 
-	@GetMapping("/hello/{name}")
-	public String hello(@PathVariable String name) {
-		return "Hello, " + name + "!";
-	}
+    @GetMapping("/hello/{name}")
+    public String hello(@PathVariable String name) {
+        return "Hello, " + name + "!";
+    }
 
-	@GetMapping("/authorization")
-	public TinderUser login() {
-		return tinderAPI.authorize(FACEBOOK_TOKEN);
-	}
+    @GetMapping("/authorization")
+    public TinderUser login() {
+        return tinderAPI.authorize(FACEBOOK_TOKEN);
+    }
 
-	@GetMapping("/recs")
-	public void getRecommendations() {
-		tinderAPI.getRecommendations("");
-	}
+    @GetMapping("/recs")
+    public void getRecommendations() {
+        tinderAPI.getRecommendations("");
+    }
 
-	@GetMapping("/test")
-	public TinderUser getTest() {
-		TinderUser tUser = new TinderUser();
-		tUser.setToken("ACB");
+    @GetMapping("/test")
+    public TinderUser getTest() {
+        TinderUser tUser = new TinderUser();
+        tUser.setToken("ACB");
 
-		return tUser;
-	}
+        return tUser;
+    }
 }
