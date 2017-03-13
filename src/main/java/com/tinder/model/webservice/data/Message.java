@@ -1,12 +1,13 @@
 package com.tinder.model.webservice.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Message {
     private String to;
     private String from;
-    private String message;
+    private String messageText;
     private long timestamp;
 
     public String getTo() {
@@ -25,12 +26,13 @@ public class Message {
         this.from = from;
     }
 
+    @JsonProperty("message")
     public String getMessage() {
-        return message;
+        return messageText;
     }
 
     public void setMessage(String message) {
-        this.message = message;
+        this.messageText = message;
     }
 
     public long getTimestamp() {

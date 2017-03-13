@@ -8,11 +8,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Results {
     private String id;
-    private String birth_date;
+    private String birthDate;
     private String name;
     private String bio;
     private String distance;
-    private String connection_count;
+    private String connectionCount;
     private String lastConnection;
     private List<Photos> photos;
     private Teaser teaser;
@@ -28,12 +28,13 @@ public class Results {
         this.id = id;
     }
 
-    public String getBirth_date() {
-        return birth_date;
+    @JsonProperty("birth_date")
+    public String getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirth_date(String birth_date) {
-        this.birth_date = birth_date;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getName() {
@@ -77,12 +78,13 @@ public class Results {
         this.teaser = teaser;
     }
 
-    public String getConnection_count() {
-        return connection_count;
+    @JsonProperty("connection_count")
+    public String getConnectionCount() {
+        return connectionCount;
     }
-
-    public void setConnection_count(String connection_count) {
-        this.connection_count = connection_count;
+    
+    public void setConnectionCount(String connectionCount) {
+        this.connectionCount = connectionCount;
     }
 
     @JsonProperty("ping_time")

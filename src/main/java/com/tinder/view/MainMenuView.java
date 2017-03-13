@@ -13,10 +13,6 @@ import com.vaadin.ui.VerticalLayout;
 public class MainMenuView extends VerticalLayout implements View {
     private static final long serialVersionUID = 3241054721587420815L;
     private Navigator navigator;
-
-    public MainMenuView() {
-    }
-
     @Autowired
     MainMenuService mainMenu;
 

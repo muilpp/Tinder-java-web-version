@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.tinder.model.webservice.data.Match;
 import com.tinder.model.webservice.data.Message;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -23,9 +22,10 @@ public class MatchService {
     @Autowired
     private TinderAPI tinderAPI;
 
-    private final static Logger LOGGER = Logger.getLogger(MatchesService.class.getSimpleName());
+    @SuppressWarnings("unused")
+    private static final Logger LOGGER = Logger.getLogger(MatchesService.class.getSimpleName());
 
-    public Layout showMatch(String userToken, Navigator navigator, Match match) {
+    public Layout showMatch(String userToken, Match match) {
         List<Message> messageList = TinderData.getInstance().getMessageList();
 
         VerticalLayout matchLayout = new VerticalLayout();
@@ -55,8 +55,6 @@ public class MatchService {
                 matchLayout.addComponent(createNewMessageLayout(newMessageText.getValue(), Alignment.TOP_RIGHT),
                         matchLayout.getComponentCount() - 1);
                 newMessageText.clear();
-            } else {
-
             }
         });
 

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import com.tinder.model.MatchService;
 import com.tinder.model.TinderAPI;
 import com.tinder.model.webservice.data.MatchDTO;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.VerticalLayout;
@@ -14,11 +13,7 @@ import com.vaadin.ui.VerticalLayout;
 @Service
 public class MatchView extends VerticalLayout implements View {
     private static final long serialVersionUID = 3241054721587420815L;
-    private Navigator navigator;
     private String userToken;
-
-    public MatchView() {
-    }
 
     @Autowired
     private TinderAPI tinderAPI;
@@ -30,10 +25,6 @@ public class MatchView extends VerticalLayout implements View {
         this.userToken = userToken;
     }
 
-    public void setNavigator(Navigator navigator) {
-        this.navigator = navigator;
-    }
-
     @Override
     public void enter(ViewChangeEvent event) {
         // remove the previous chat messages from the view
@@ -41,6 +32,6 @@ public class MatchView extends VerticalLayout implements View {
         MatchDTO matchDTO = tinderAPI.getMatchInfo(userToken, event.getParameters());
 
         if (this.getComponentCount() == 0)
-            addComponent(matchService.showMatch(userToken, navigator, matchDTO.getMatch()));
+            addComponent(matchService.showMatch(userToken, matchDTO.getMatch()));
     }
 }

@@ -1,15 +1,17 @@
 package com.tinder.model.webservice;
 
 public final class Endpoints {
-    public final static String BASE_URL = "https://api.gotinder.com";
-    public final static String RECS_EP = "/user/recs";
-    public final static String SUPERLIKE_EP = "/super/";
-    public final static String LIKE_EP = "/like/";
-    public final static String PASS_EP = "/pass/";
-    public final static String ALL_MATCHES_EP = "/updates";
-    public final static String MATCH_INFO_EP = "/user/matches/";
-    public final static String AUTH_EP = "/auth";
+    public static final String BASE_URL = "https://api.gotinder.com";
+    public static final String RECS_EP = "/user/recs";
+    public static final String SUPERLIKE_EP = "/super/";
+    public static final String LIKE_EP = "/like/";
+    public static final String PASS_EP = "/pass/";
+    public static final String ALL_MATCHES_EP = "/updates";
+    public static final String MATCH_INFO_EP = "/user/matches/";
+    public static final String AUTH_EP = "/auth";
 
+    private Endpoints() {}
+    
     public static String getRecsEP() {
         return BASE_URL + RECS_EP;
     }

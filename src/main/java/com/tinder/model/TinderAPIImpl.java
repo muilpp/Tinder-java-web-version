@@ -8,6 +8,8 @@ import static com.tinder.model.webservice.Endpoints.getSendLikeEP;
 import static com.tinder.model.webservice.Endpoints.getSendPassEP;
 import static com.tinder.model.webservice.Endpoints.getSendSuperlikeEP;
 
+import java.io.Serializable;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,28 +25,25 @@ import com.tinder.model.webservice.data.MatchesDTO;
 import com.tinder.model.webservice.data.Message;
 import com.tinder.model.webservice.data.RecommendationsDTO;
 import com.tinder.model.webservice.data.TinderUser;
-import com.tinder.model.webservice.error_handler.ErrorHandler;
+import com.tinder.model.webservice.errorhandler.ErrorHandler;
 import com.tinder.model.webservice.interceptors.BearerHeaderInterceptor;
 import com.tinder.model.webservice.interceptors.LoggingInterceptor;
 
+@SuppressWarnings("serial")
 @Service
 public class TinderAPIImpl implements TinderAPI {
-    private final static Logger LOGGER = Logger.getLogger(TinderAPIImpl.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(TinderAPIImpl.class.getName());
 
+    @Autowired
+    private RestTemplate restTemplate;
+    
     @Bean
     public RestTemplate restTemplate() {
-//        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-//        Proxy proxy = new Proxy(Type.HTTP, new InetSocketAddress("192.168.1.35", 8888));
-//        requestFactory.setProxy(proxy);
-//        RestTemplate restTemplate = new RestTemplate(requestFactory);
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setErrorHandler(new ErrorHandler());
         restTemplate.getInterceptors().add(new LoggingInterceptor());
         return restTemplate;
     }
-
-    @Autowired
-    private RestTemplate restTemplate;
 
     @Override
     public TinderUser authorize(String facebookToken) {
@@ -60,7 +59,7 @@ public class TinderAPIImpl implements TinderAPI {
             
             return response.getBody();
         } else {
-            LOGGER.severe("Failed authorization : HTTP response -> " + response.getStatusCodeValue());
+            LOGGER.log(Level.SEVERE, "Failed authorization : HTTP response, [{0}] -> ", response.getStatusCodeValue());
             LOGGER.severe(response.getStatusCode().getReasonPhrase());
         }
 
@@ -75,7 +74,7 @@ public class TinderAPIImpl implements TinderAPI {
         if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         } else {
-            LOGGER.severe("Failed recommendations : HTTP response -> " + response.getStatusCodeValue());
+            LOGGER.log(Level.SEVERE, "Failed recommendations : HTTP response, [{0}] -> ", response.getStatusCodeValue());
             LOGGER.severe(response.getStatusCode().getReasonPhrase());
         }
 
@@ -87,10 +86,10 @@ public class TinderAPIImpl implements TinderAPI {
         ResponseEntity<String> response = restTemplate.getForEntity(getSendLikeEP(userID), String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
-            System.out.println(response.getBody());
+            LOGGER.info(response.getBody());
             return response.getBody().contains("true");
         } else {
-            LOGGER.severe("Failed like : HTTP response -> " + response.getStatusCodeValue());
+            LOGGER.log(Level.SEVERE, "Failed like : HTTP response, [{0}] -> ", response.getStatusCodeValue());
             LOGGER.severe(response.getStatusCode().getReasonPhrase());
         }
 
@@ -102,9 +101,9 @@ public class TinderAPIImpl implements TinderAPI {
         ResponseEntity<String> response = restTemplate.getForEntity(getSendPassEP(userID), String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
-            System.out.println(response.getBody());
+            LOGGER.info(response.getBody());
         } else {
-            LOGGER.severe("Failed pass : HTTP response -> " + response.getStatusCodeValue());
+            LOGGER.log(Level.SEVERE, "Failed pass : HTTP response, [{0}] -> ", response.getStatusCodeValue());
             LOGGER.severe(response.getStatusCode().getReasonPhrase());
         }
     }
@@ -114,19 +113,20 @@ public class TinderAPIImpl implements TinderAPI {
         ResponseEntity<String> response = restTemplate.postForEntity(getSendSuperlikeEP(userID), "", String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
-            System.out.println(response.getBody());
+            LOGGER.info(response.getBody());
             if (response.getBody().contains("limit_exceeded"))
                 return -1;
             else if (response.getBody().contains("true"))
                 return 1;
         } else {
-            LOGGER.severe("Failed super like : HTTP response -> " + response.getStatusCodeValue());
+            LOGGER.log(Level.SEVERE, "Failed super like : HTTP response, [{0}] -> ", response.getStatusCodeValue());
             LOGGER.severe(response.getStatusCode().getReasonPhrase());
         }
 
         return 0;
     }
 
+    @Override
     public MatchesDTO getAllMatches(String userToken) {
         ResponseEntity<MatchesDTO> response = restTemplate.postForEntity(getAllMatchesEP(), "{\"matches\":\"\"}",
                 MatchesDTO.class);
@@ -134,7 +134,7 @@ public class TinderAPIImpl implements TinderAPI {
         if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         } else {
-            LOGGER.severe("Failed all mathces : HTTP response -> " + response.getStatusCodeValue());
+            LOGGER.log(Level.SEVERE, "Failed all mathces : HTTP response, [{0}] -> ", response.getStatusCodeValue());
             LOGGER.severe(response.getStatusCode().getReasonPhrase());
         }
 
@@ -148,7 +148,7 @@ public class TinderAPIImpl implements TinderAPI {
         if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         } else {
-            LOGGER.severe("Failed match info : HTTP response -> " + response.getStatusCodeValue());
+            LOGGER.log(Level.SEVERE, "Failed match info : HTTP response, [{0}] -> ", response.getStatusCodeValue());
             LOGGER.severe(response.getStatusCode().getReasonPhrase());
         }
 

@@ -6,6 +6,7 @@ public class FacebookUser {
     private String token;
 
     public FacebookUser() {
+        //no-args constructor used at serializing
     }
 
     public FacebookUser(String token) {

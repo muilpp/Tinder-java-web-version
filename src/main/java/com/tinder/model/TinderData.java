@@ -10,6 +10,7 @@ public class TinderData {
 
     private static TinderData tinderData;
     private List<Message> messageList;
+    @SuppressWarnings("unused")
     private static final Logger LOGGER = Logger.getLogger(TinderData.class.getSimpleName());
 
     private TinderData() {

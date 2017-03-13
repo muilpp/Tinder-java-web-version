@@ -11,14 +11,11 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.VerticalLayout;
 
+@SuppressWarnings("serial")
 @Service
 public class MatchesView extends VerticalLayout implements View {
-    private static final long serialVersionUID = 3241054721587420815L;
     private String userToken;
     private Navigator navigator;
-
-    public MatchesView() {
-    }
 
     @Autowired
     private TinderAPI tinderAPI;
@@ -26,6 +23,10 @@ public class MatchesView extends VerticalLayout implements View {
     @Autowired
     private MatchesService matchesService;
 
+    public MatchesView() {
+        //no-args constructor needed for serialization
+    }
+    
     public void setUserToken(String userToken) {
         this.userToken = userToken;
     }

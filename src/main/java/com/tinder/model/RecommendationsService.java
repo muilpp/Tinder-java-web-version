@@ -40,7 +40,7 @@ public class RecommendationsService {
             userInfoLayout.setMargin(new MarginInfo(true, true, false, true));
 
             addUserInfo(resultList.get(i), userInfoLayout);
-            addLikePassButtons(resultList.get(i), userInfoLayout, recsLayout, i);
+            addLikePassButtons(resultList.get(i), userInfoLayout, recsLayout);
             fullUserLayout.addComponent(userInfoLayout);
             addUserPictures(resultList.get(i), fullUserLayout);
 
@@ -53,7 +53,7 @@ public class RecommendationsService {
     void addUserInfo(Results result, VerticalLayout userInfoLayout) {
         Label nameLabel = new Label("Name : " + result.getName());
         Label distanceLabel = new Label("Distance : " + result.getDistance());
-        Label birthDateLabel = new Label("Birth date : " + result.getBirth_date().substring(0, 4));
+        Label birthDateLabel = new Label("Birth date : " + result.getBirthDate().substring(0, 4));
 
         // parse the date in Tinder's format
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -82,7 +82,7 @@ public class RecommendationsService {
         }
     }
 
-    void addLikePassButtons(Results result, VerticalLayout userInfoLayout, VerticalLayout fullUserLayout, int index) {
+    void addLikePassButtons(Results result, VerticalLayout userInfoLayout, VerticalLayout fullUserLayout) {
         HorizontalLayout likePassButtonsLayout = new HorizontalLayout();
 
         Button superlikeButton = new Button("Superlike");
@@ -134,9 +134,7 @@ public class RecommendationsService {
                     profileImage.setHeight("172px");
                     profileImage.setStyleName(BaseTheme.BUTTON_LINK);
                     final String bigPic = file.getUrl().replace("172x172_", "");
-                    profileImage.addClickListener(e -> {
-                        userInterface.getPage().open(bigPic, "_blank");
-                    });
+                    profileImage.addClickListener(e -> userInterface.getPage().open(bigPic, "_blank"));
 
                     userPicsLayout.setMargin(true);
                     userPicsLayout.addComponent(profileImage);

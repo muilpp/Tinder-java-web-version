@@ -3,7 +3,6 @@ package com.tinder.view;
 import com.tinder.model.RecommendationsService;
 import com.tinder.model.TinderAPI;
 import com.tinder.model.webservice.data.RecommendationsDTO;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.UI;

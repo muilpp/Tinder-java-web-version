@@ -1,17 +1,20 @@
 package com.tinder.model.webservice.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Token {
-    private String token, resetToken;
+    private String tokenValue;
+    private String resetToken;
 
+    @JsonProperty("token")
     public String getToken() {
-        return token;
+        return tokenValue;
     }
 
     public void setToken(String token) {
-        this.token = token;
+        this.tokenValue = token;
     }
 
     public String getResetToken() {

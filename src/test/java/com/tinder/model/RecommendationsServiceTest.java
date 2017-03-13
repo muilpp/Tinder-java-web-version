@@ -2,7 +2,6 @@ package com.tinder.model;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 
@@ -20,7 +19,7 @@ import com.tinder.model.webservice.data.Results;
 import com.vaadin.ui.VerticalLayout;
 
 public class RecommendationsServiceTest {
-    private final static Logger LOGGER = Logger.getLogger(RecommendationsServiceTest.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(RecommendationsServiceTest.class.getSimpleName());
     private RecommendationsDTO recsDTO;
 
     @Mock
@@ -44,7 +43,7 @@ public class RecommendationsServiceTest {
         VerticalLayout recsLayout = new VerticalLayout();
 
         for (Results result : recsDTO.getResults()) {
-            recsFacade.addLikePassButtons(result, recsLayout, anyObject(), anyInt());
+            recsFacade.addLikePassButtons(result, recsLayout, anyObject());
         }
         assertThat(recsDTO.getResults().size(), equalTo(2));
         // There are two components, like and pass layout for each user

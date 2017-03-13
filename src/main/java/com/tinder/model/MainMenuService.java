@@ -19,7 +19,9 @@ import com.vaadin.ui.VerticalLayout;
 
 @Service
 public class MainMenuService {
-    private Logger LOGGER = Logger.getLogger(MainMenuService.class.getSimpleName());
+    @SuppressWarnings("unused")
+    private static final Logger LOGGER = Logger.getLogger(MainMenuService.class.getSimpleName());
+    private static final String LAYOUT_WIDTH = "200px";
 
     public Layout showMainMenu(Navigator navigator) {
         VerticalLayout mainLayout = new VerticalLayout();
@@ -27,26 +29,22 @@ public class MainMenuService {
         Image changeUserImage = createImage("ic_account_circle_black_48px.svg");
         Label changeUserLabel = new Label("Change user");
         VerticalLayout changeUserLayout = new VerticalLayout(changeUserLabel, changeUserImage);
-        changeUserLayout.setWidth("200px");
+        changeUserLayout.setWidth(LAYOUT_WIDTH);
 
         Image recsImage = createImage("ic_supervisor_account_black_48px.svg");
         Label recsLabel = new Label("Recommendations");
         VerticalLayout recsLayout = new VerticalLayout(recsLabel, recsImage);
 
-        recsLayout.addLayoutClickListener(e -> {
-            navigator.navigateTo(PAGE_RECS);
-        });
+        recsLayout.addLayoutClickListener(e -> navigator.navigateTo(PAGE_RECS));
 
         HorizontalLayout firstRowLayout = new HorizontalLayout(changeUserLayout, recsLayout);
 
         Image matchesImage = createImage("ic_chat_black_48px.svg");
         Label matchesLabel = new Label("Matches");
         VerticalLayout matchesLayout = new VerticalLayout(matchesLabel, matchesImage);
-        matchesLayout.setWidth("200px");
+        matchesLayout.setWidth(LAYOUT_WIDTH);
 
-        matchesLayout.addLayoutClickListener(e -> {
-            navigator.navigateTo(PAGE_MATCHES);
-        });
+        matchesLayout.addLayoutClickListener(e -> navigator.navigateTo(PAGE_MATCHES));
 
         Image changeLocationImage = createImage("ic_add_location_black_48px.svg");
         Label changeLocationLabel = new Label("Change location");
@@ -57,7 +55,7 @@ public class MainMenuService {
         Image possibleMatchesImage = createImage("ic_face_black_48px.svg");
         Label possibleMatchesLabel = new Label("Possible matches");
         VerticalLayout possibleMatchesLayout = new VerticalLayout(possibleMatchesLabel, possibleMatchesImage);
-        possibleMatchesLayout.setWidth("200px");
+        possibleMatchesLayout.setWidth(LAYOUT_WIDTH);
 
         Image blocksImage = createImage("ic_visibility_off_black_48px.svg");
         Label blocksLabel = new Label("Blocks");

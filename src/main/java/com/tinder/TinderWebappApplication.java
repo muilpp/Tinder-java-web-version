@@ -44,7 +44,6 @@ public class TinderWebappApplication {
     @Theme("valo")
     @SpringUI(path = "")
     public static class VaadinUI extends UI {
-        private Navigator navigator;
         @Autowired
         private TinderAPI tinderAPI;
 
@@ -57,6 +56,8 @@ public class TinderWebappApplication {
         @Autowired
         private MatchView matchView;
 
+        private VaadinUI() {}
+        
         @Override
         protected void init(VaadinRequest request) {
             TinderUser tinderUser = tinderAPI.authorize(FACEBOOK_TOKEN);
@@ -64,13 +65,12 @@ public class TinderWebappApplication {
             RecommendationsView recsView = new RecommendationsView(tinderUser.getToken(), getUI(), tinderAPI);
 
             // Create a navigator to control the views
-            navigator = new Navigator(this, this);
+            Navigator navigator = new Navigator(this, this);
 
             // Init necessary parameters
             mainMenuView.setNavigator(navigator);
             matchesView.setNavigator(navigator);
             matchesView.setUserToken(tinderUser.getToken());
-            matchView.setNavigator(navigator);
             matchView.setUserToken(tinderUser.getToken());
 
             // Create and register the views
@@ -79,6 +79,43 @@ public class TinderWebappApplication {
             navigator.addView(PAGE_MATCHES, matchesView);
             navigator.addView(PAGE_MATCH, matchView);
             navigator.navigateTo(PAGE_MAIN);
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = super.hashCode();
+            result = prime * result + ((mainMenuView == null) ? 0 : mainMenuView.hashCode());
+            result = prime * result + ((matchView == null) ? 0 : matchView.hashCode());
+            result = prime * result + ((matchesView == null) ? 0 : matchesView.hashCode());
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (!super.equals(obj))
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            VaadinUI other = (VaadinUI) obj;
+            if (mainMenuView == null) {
+                if (other.mainMenuView != null)
+                    return false;
+            } else if (!mainMenuView.equals(other.mainMenuView))
+                return false;
+            if (matchView == null) {
+                if (other.matchView != null)
+                    return false;
+            } else if (!matchView.equals(other.matchView))
+                return false;
+            if (matchesView == null) {
+                if (other.matchesView != null)
+                    return false;
+            } else if (!matchesView.equals(other.matchesView))
+                return false;
+            return true;
         }
     }
 }

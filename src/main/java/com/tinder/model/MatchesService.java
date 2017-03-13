@@ -21,7 +21,8 @@ import com.vaadin.ui.VerticalLayout;
 
 @Service
 public class MatchesService {
-    private final static Logger LOGGER = Logger.getLogger(MatchesService.class.getSimpleName());
+    @SuppressWarnings("unused")
+    private static final Logger LOGGER = Logger.getLogger(MatchesService.class.getSimpleName());
 
     public Layout showMatches(Navigator navigator, List<Match> matchList) {
         HorizontalLayout matchesRowLayout = new HorizontalLayout();

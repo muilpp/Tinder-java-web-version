@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProcessedFiles {
     private String url;
-    private int height, width;
+    private int height;
+    private int width;
 
     public String getUrl() {
         return url;
